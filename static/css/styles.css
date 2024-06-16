@@ -1,0 +1,120 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #333;
+    color: white;
+    padding: 10px 0;
+    text-align: center;
+}
+
+nav ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+nav ul li {
+    display: inline;
+    margin: 0 10px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+}
+
+main {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;  /* 居中对齐 */
+}
+
+main ul {
+    padding: 0;
+    list-style-type: none;
+    text-align: center;  /* 文本居中 */
+}
+
+main ul li {
+    margin: 5px 0;  /* 每个主题之间的间距 */
+}
+
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+    position: relative; /* Ensure footer is positioned correctly */
+    bottom: 0;
+    width: 100%;
+    margin-top: 20px; /* Add margin to separate from main content */
+}
+
+.tweet {
+    margin: 15px 0;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #fff;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.tweet:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.username {
+    font-size: 14px;
+    color: #555;
+    margin-bottom: 5px;
+}
+
+.keywords {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-bottom: 15px;
+}
+
+.keyword {
+    padding: 5px 10px;
+    background-color: #007bff;
+    color: #fff;
+    border-radius: 5px;
+    font-size: 12px;
+}
+
+.keyword:hover {
+    background-color: #0056b3;
+}
+
+.tweets {
+    list-style-type: none;  /* Remove list bullets */
+    padding: 0;  /* Remove default padding */
+}
+
+.nav {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.nav button {
+    margin: 5px;
+    padding: 10px;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+    display: inline-block;
+}
+
+.nav button:hover {
+    background-color: #0056b3;
+}

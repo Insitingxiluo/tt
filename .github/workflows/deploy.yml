@@ -3,24 +3,16 @@ name: Deploy static site to GitHub Pages
 on:
   push:
     branches:
-<<<<<<< HEAD
       - main  # 触发部署的分支
 
 jobs:
   build-and-deploy:
-=======
-      - main
-
-jobs:
-  deploy:
->>>>>>> origin/main
     runs-on: ubuntu-latest
 
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
 
-<<<<<<< HEAD
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
@@ -35,14 +27,8 @@ jobs:
       run: |
         python generate_site.py
 
-=======
->>>>>>> origin/main
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.THEBESTCONTENT }}
-<<<<<<< HEAD
         publish_dir: ./web  # 请确保这个路径是你生成的网站文件路径
-=======
-        publish_dir: .
->>>>>>> origin/main

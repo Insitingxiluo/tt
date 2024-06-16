@@ -27,6 +27,11 @@ jobs:
       run: |
         python generate_site.py
 
+    - name: Copy static files
+      run: |
+        mkdir -p ./web/static
+        cp -r static/* ./web/static/
+
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
       with:

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{{ relative_path }}static/css/styles.css">
+    <script async src="https://www.googletagmanager.com/gtag/js?id={{ google_analytics_id }}"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', '{{ google_analytics_id }}');
+    </script>
+    <script data-ad-client="{{ google_adsense_id }}" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="{{ relative_path }}index.html">Home</a></li>
+                <li><a href="{{ relative_path }}about.html">About Us</a></li>
+                <li><a href="{{ relative_path }}contact.html">Contact Us</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+    {% block footer %}
+    <footer>
+        <p>&copy; 2024 Twitter Themes</p>
+        <a href="{{ relative_path }}sitemap.xml">Sitemap</a>
+    </footer>
+    {% endblock %}
+    <script src="{{ relative_path }}static/js/scripts.js"></script>
+</body>
+</html>

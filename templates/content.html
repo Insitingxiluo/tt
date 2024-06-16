@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<h2>Topic: {{ title }}</h2>
+<div class="keywords">
+    {% for keyword in title.split(' ') %}
+    <span class="keyword">{{ keyword }}</span>
+    {% endfor %}
+</div>
+<ul class="tweets">
+    {% for tweet, username in zip(tweets, usernames) %}
+    <li class="tweet">
+        <div class="username">Username: {{ username }}</div>
+        <div>{{ tweet }}</div>
+    </li>
+    {% endfor %}
+</ul>
+<div class="nav">
+    {% if page > 1 %}
+    <button onclick="location.href='topic_{{ topic_id }}_page{{ page - 1 }}.html'">Previous</button>
+    {% endif %}
+    {% if page < total_pages %}
+    <button onclick="location.href='topic_{{ topic_id }}_page{{ page + 1 }}.html'">Next</button>
+    {% endif %}
+    <button onclick="location.href='../index.html'">Back to Home</button>
+</div>
+{% endblock %}
+
+{% block footer %}
+<footer>
+    <p>&copy; 2024 Twitter Themes</p>
+    <a href="{{ relative_path }}sitemap.xml">Sitemap</a> | <a href="{{ sitemap_url }}">Sub-Sitemap</a>
+</footer>
+{% endblock %}

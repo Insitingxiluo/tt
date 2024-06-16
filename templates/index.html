@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<h2>All Themes</h2>
+<ul>
+    {% for topic in topics %}
+    <li><a href="content/topic_{{ topic[0] }}_page1.html">{{ topic[1] }}</a></li>
+    {% endfor %}
+</ul>
+<div class="nav">
+    {% if current_page > 1 %}
+    <button onclick="location.href='{% if current_page - 1 == 1 %}index.html{% else %}index_page{{ current_page - 1 }}.html{% endif %}'">Previous</button>
+    {% endif %}
+    {% if current_page < total_pages %}
+    <button onclick="location.href='index_page{{ current_page + 1 }}.html'">Next</button>
+    {% endif %}
+</div>
+{% endblock %}

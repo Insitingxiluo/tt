@@ -20,6 +20,7 @@
                 <li><a href="{{ relative_path }}index.html">Home</a></li>
                 <li><a href="{{ relative_path }}about.html">About Us</a></li>
                 <li><a href="{{ relative_path }}contact.html">Contact Us</a></li>
+                <li><a href="{{ relative_path }}sitemap_index.xml">Sitemap Index</a></li>
             </ul>
         </nav>
     </header>
@@ -29,7 +30,7 @@
     {% block footer %}
     <footer>
         <p>&copy; 2024 Twitter Themes</p>
-        <a href="{{ relative_path }}sitemap.xml">Sitemap</a>
+        <a href="{{ relative_path }}sitemap.xml">Sitemap</a> | <a href="{{ relative_path }}sitemap_index.xml">Sitemap Index</a>
     </footer>
     {% endblock %}
     <script src="{{ relative_path }}static/js/scripts.js"></script>

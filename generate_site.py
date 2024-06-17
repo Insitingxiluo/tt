@@ -4,6 +4,7 @@ import pandas as pd
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.decomposition import LatentDirichletAllocation
 from collections import defaultdict
+import gzip
 import config
 
 # 读取所有分割的 CSV 文件
@@ -44,12 +45,6 @@ grouped_usernames = defaultdict(list)
 for idx, label in enumerate(doc_topic_labels):
     grouped_tweets[label].append(texts[idx])
     grouped_usernames[label].append(usernames[idx])
-
-# 检查 grouped_tweets 和 topic_keywords
-print(f"Grouped Tweets: {len(grouped_tweets)}")
-for topic_id, tweets in grouped_tweets.items():
-    print(f"Topic {topic_id}: {len(tweets)} tweets")
-print(f"Topic Keywords: {len(topic_keywords)}")
 
 # 创建Jinja2模板环境
 env = Environment(loader=FileSystemLoader('templates'))
@@ -114,11 +109,6 @@ index_template = env.get_template('index.html')
 topics = [(i, ' '.join(keywords[:3])) for i, keywords in enumerate(topic_keywords)]
 total_theme_pages = (len(topics) // themes_per_page) + 1
 
-# 检查 topics 列表
-print(f"Total topics: {len(topics)}")
-if not topics:
-    print("Error: Topics list is empty!")
-
 for page in range(total_theme_pages):
     start_idx = page * themes_per_page
     end_idx = start_idx + themes_per_page
@@ -164,8 +154,13 @@ contact_html_content = contact_template.render(
 with open('web/contact.html', 'w') as f:
     f.write(contact_html_content)
 
-# 生成网站地图
+# 生成网站地图，分块处理
 sitemap_template = env.get_template('sitemap.xml')
+sitemap_index_template = env.get_template('sitemap_index.xml')
+
+max_links_per_sitemap = 50000
+sitemap_files = []
+
 sitemap_entries = [
     {"loc": f"{config.DOMAIN}/index.html"}
 ] + [
@@ -173,16 +168,28 @@ sitemap_entries = [
 ] + [
     {"loc": f"{config.DOMAIN}/about.html"},
     {"loc": f"{config.DOMAIN}/contact.html"}
-] + [
+]
+
+content_entries = [
     {"loc": f"{config.DOMAIN}/content/topic_{topic_id}_page{page + 1}.html"}
     for topic_id in range(len(grouped_tweets))
     for page in range((len(grouped_tweets[topic_id]) // tweets_per_page) + 1)
 ]
 
-sitemap_xml_content = sitemap_template.render(
-    entries=sitemap_entries,
-    total_theme_pages=total_theme_pages  # 传递 total_theme_pages 到模板
-)
+sitemap_entries.extend(content_entries)
 
-with open('web/sitemap.xml', 'w') as f:
-    f.write(sitemap_xml_content)
+for i in range(0, len(sitemap_entries), max_links_per_sitemap):
+    chunk = sitemap_entries[i:i + max_links_per_sitemap]
+    sitemap_xml_content = sitemap_template.render(entries=chunk)
+    sitemap_file = f'web/sitemap_{i // max_links_per_sitemap + 1}.xml.gz'
+    with gzip.open(sitemap_file, 'wt', encoding='utf-8') as f:
+        f.write(sitemap_xml_content)
+    sitemap_files.append(sitemap_file)
+
+# 生成网站地图索引
+sitemap_index_content = sitemap_index_template.render(sitemaps=[
+    {"loc": f"{config.DOMAIN}/sitemap_{i + 1}.xml.gz"} for i in range(len(sitemap_files))
+])
+
+with open('web/sitemap_index.xml', 'w') as f:
+    f.write(sitemap_index_content)

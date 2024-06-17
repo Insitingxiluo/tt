@@ -6,7 +6,6 @@ from sklearn.decomposition import LatentDirichletAllocation
 from collections import defaultdict
 import config
 
-
 # 读取所有分割的 CSV 文件
 data_dir = 'data/split_files'
 files = [os.path.join(data_dir, f) for f in os.listdir(data_dir) if f.endswith('.csv')]
@@ -65,11 +64,23 @@ tweets_per_page = 10
 
 # 生成主题页面
 content_template = env.get_template('content.html')
+sub_sitemap_template = env.get_template('sub_sitemap.xml')
+
 for topic_id, tweets in grouped_tweets.items():
     keywords = topic_keywords[topic_id]
     title = ' '.join(keywords[:3])  # 使用前三个关键词作为标题
     usernames_list = grouped_usernames[topic_id]
     total_pages = (len(tweets) // tweets_per_page) + 1
+
+    # 生成子站点地图
+    sub_sitemap_entries = [
+        {"loc": f"{config.DOMAIN}/content/topic_{topic_id}_page{page + 1}.html"}
+        for page in range(total_pages)
+    ]
+    sub_sitemap_content = sub_sitemap_template.render(entries=sub_sitemap_entries)
+    sub_sitemap_path = f'web/content/topic_{topic_id}_sitemap.xml'
+    with open(sub_sitemap_path, 'w') as f:
+        f.write(sub_sitemap_content)
 
     for page in range(total_pages):
         start_idx = page * tweets_per_page
@@ -88,7 +99,8 @@ for topic_id, tweets in grouped_tweets.items():
             google_adsense_id=config.GOOGLE_ADSENSE_ID,
             domain=config.DOMAIN,
             contact_email=config.CONTACT_EMAIL,
-            relative_path='../'  # 用于调整相对路径，指向根目录
+            relative_path='../',  # 用于调整相对路径，指向根目录
+            sub_sitemap_url=f'content/topic_{topic_id}_sitemap.xml'  # 添加子站点地图链接
         )
 
         with open(f'web/{url}', 'w') as f:

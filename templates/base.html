@@ -12,7 +12,6 @@
         gtag('js', new Date());
         gtag('config', '{{ google_analytics_id }}');
     </script>
-    <script data-ad-client="{{ google_adsense_id }}" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 </head>
 <body>
     <header>
@@ -34,5 +33,7 @@
     </footer>
     {% endblock %}
     <script src="{{ relative_path }}static/js/scripts.js"></script>
+    <script src="{{ relative_path }}static/js/adsense.js"></script>
+    <script src="{{ relative_path }}static/js/tracking.js"></script>
 </body>
 </html>

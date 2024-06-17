@@ -14,8 +14,8 @@ files = [os.path.join(data_dir, f) for f in os.listdir(data_dir) if f.endswith('
 data = pd.concat((pd.read_csv(f, encoding='latin-1') for f in files), ignore_index=True)
 
 # 提取推文内容和用户名（假设第六列为推文内容，第五列为用户名）
-texts = data.iloc[:2000, 5].tolist()
-usernames = data.iloc[:2000, 4].tolist()
+texts = data.iloc[:, 5].tolist()
+usernames = data.iloc[:, 4].tolist()
 
 # 向量化文本数据
 vectorizer = CountVectorizer(max_df=0.95, min_df=2, stop_words='english')
